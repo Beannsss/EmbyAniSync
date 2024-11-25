@@ -8,7 +8,7 @@ PyYAML==6.0
 requests==2.30.0
 ruamel.yaml.clib==0.2.7
 ruamel.yaml==0.17.26
-urllib3==2.0.2
+urllib3==2.0.7
 yamale==4.0.4
 APScheduler~=3.10.1
 Flask~=2.3.2

@@ -5,7 +5,7 @@ humanfriendly==10.0
 inflect==5.4.0
 pyreadline3==3.4.1
 PyYAML==6.0
-requests==2.30.0
+requests==2.31.0
 ruamel.yaml.clib==0.2.7
 ruamel.yaml==0.17.26
 urllib3==2.0.2

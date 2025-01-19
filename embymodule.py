@@ -155,6 +155,8 @@ def get_watched_shows(shows: List[EmbyShow]) -> Optional[List[EmbyWatchedSeries]
         except Exception:
             logger.exception(f"[EMBY] Error occured during episode processing of show {show}")
 
+    # print(list(series.to_json() for series in watched_series))
+
     logger.info(f"[EMBY] Found {len(watched_series)} watched series")
 
     if ovas_found > 0:

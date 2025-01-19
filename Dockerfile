@@ -21,4 +21,4 @@ ENV PYTHONPATH=/root/.local/lib/python3.11/site-packages
 #CMD instruction should be used to run the software
 #contained by your image, along with any arguments.
 
-CMD [ "python", "/embyanisync/embyanisync.py"]
+CMD [ "python", "/embyanisync/EmbyAniSync.py"]

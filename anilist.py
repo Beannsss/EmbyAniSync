@@ -178,6 +178,7 @@ def match_to_emby(anilist_series: List[AnilistSeries], emby_series_watched, toke
         emby_seasons = emby_series.seasons
         emby_anilist_id = emby_series.anilist_id
 
+
         custom_mapping_seasons_anilist_id = 0
         mapped_season_count = 0
         emby_watched_episode_count_custom_mapping = 0
@@ -216,7 +217,7 @@ def match_to_emby(anilist_series: List[AnilistSeries], emby_series_watched, toke
                 mapped_season_count = custom_mapping_season_count
 
                 if custom_mapping_season_count == len(emby_seasons):
-                    return
+                    continue
 
         # Start processing of any remaining seasons
         for emby_season in emby_seasons[mapped_season_count:]:
@@ -607,6 +608,7 @@ def find_id_best_match(title: str, year: int, token: str) -> Optional[int]:
 
 def add_or_update_show_by_id(anilist_series: List[AnilistSeries], emby_title: str, emby_year: int, skip_year_check: bool, watched_episodes: int, anime_id: int, token: str):
     # print(anilist_series)
+    # print(emby_title)
     # print(anime_id)
     series = find_mapped_series(anilist_series, anime_id)
     if series:

@@ -1,5 +1,8 @@
 from __future__ import print_function
 
+import os
+import pickle
+
 import coloredlogs
 
 from config import emby_settings, item_service, settings, users, general_settings
@@ -50,12 +53,14 @@ scheduler = apscheduler.BackgroundScheduler()
 # webhook from emby
 @app.route('/update_show', methods=['POST'])
 def update_anilist():
-    data = json.loads(dict(request.form)['data'])
+    data = request.json
+
+    logger.warning(data)
 
     logger.debug(json.dumps(data))
 
     if 'Item' not in data:
-        print('not an episode finished! Probably a test!')
+        logger.info('not an episode finished! Probably a test!')
         return '200'
     item = data['Item']
     user = data['User']
@@ -155,6 +160,13 @@ def update_all():
         logger.info("Emby to AniList sync finished for %s", user.anilist_username)
     return "200"
 
+def save_data_to_pickle(data, filename):
+    with open(filename, 'wb') as f:
+        pickle.dump(data, f)
+
+def load_data_from_pickle(filename):
+    with open(filename, 'rb') as f:
+        return pickle.load(f)
 
 def clean_nones(value):
     """

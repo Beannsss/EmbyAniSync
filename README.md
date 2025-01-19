@@ -115,7 +115,7 @@ In Emby dashboard, you can create a webhook that points to your flask app:port/u
 
 ![image](https://user-images.githubusercontent.com/8314499/236054014-eec29591-7b93-4102-ad7c-956b58ee9660.png)
 
-### Step 7 - Run as a service Systemd
+### Step 7(a) - Run as a service Systemd (Linux)
 
 Enter the following command into your terminal to create a new service file. 
 replacing nano with your preferred text editor
@@ -160,6 +160,94 @@ sudo systemctl status embyanisync
 #### Enable at boot
 ```bash
 sudo systemctl enable embyanisync
+```
+### Step 7(b) - Run as a service NSSM (Windows)
+
+Download NSSM from the [official website](https://nssm.cc/). NSSM is used to create a windows service to run the script.
+
+Once downloaded, copy `nssm.exe` to the same directory the script is located in. 
+
+Next, open cmd in that directory with administrator privileges.
+
+In cmd, enter the following command:
+
+```
+nssm install AniSync
+```
+
+You can replace `AniSync` with a name of your choice but remember to replace any instances of `AniSync` in the following commands with your choice.
+
+Next, enter the following command:
+
+```
+nssm edit AniSync
+```
+
+This will open up a GUI interface. Enter the details as follows:
+
+- Path: `path\to\your\python.exe`
+- Startup Directory: `path\to\your\EmbyAniSync\directory`
+- Arguments: `"path\to\EmbyAniSync.py"`
+
+![Screenshot 2024-08-10 123852](https://github.com/user-attachments/assets/2dd48117-ca08-4031-b4fc-8d149749930a)
+
+**Note:**
+- Path to your Startup Directory is the same directory where `EmbyAniSync.py` is located.
+- Arguments should include the quotation marks (""). 
+
+Next click on the details tab and make sure `Startup type` is set to `Automatic`.
+
+![Screenshot 2024-08-10 132317](https://github.com/user-attachments/assets/98654585-44f7-4c30-b662-3047ae864815)
+
+Next, click on `Edit Service`.
+
+Finally, enter the following command in cmd:
+
+```
+nssm restart AniSync
+```
+
+#### Optional - Create logs
+
+You can create logs for the service. This can be helpful to debug any issues.
+
+First create a directory to save your log files. Ideally you can create this directory in the same directory as your script.
+
+```
+.
+└── EmbyAniSync/
+    ├── embypython/
+    ├── logs/
+    ├── EmbyAniSync.py
+    └── nssm.exe
+```
+
+Next, open up cmd as administrator in the same directory that EmbyAniSync.py is located.
+
+Enter the following command:
+
+```
+nssm edit AniSync
+```
+
+Now, in the NSSM GUI, click on the `I/O` tab. You may need to click on the arrow buttons to navigate to it.
+
+- In `Output (stdout)` enter the following:
+    
+    `path\to\the\log\directory\service.log`
+
+- In `Error (stderr)` enter the following:
+
+    `path\to\the\log\directory\service-debug.log`
+
+![Screenshot 2024-08-10 125554](https://github.com/user-attachments/assets/3f47ddd7-3fdb-4eb8-9381-ece09c95e7e9)
+
+Next, click on `Edit Service`.
+
+Finally, enter the following command in cmd:
+
+```
+nssm restart AniSync
 ```
 
 ## Optional features 

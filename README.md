@@ -66,7 +66,7 @@ anilist_token = ANILIST_TOKEN_HERE
 ### Step 4 - Install requirements
 
 
-Install the addtional requirements using the Python package installer (pip) from within the project folder:
+Install the addtional requirements using the Python package installer (pip) from within the project folder: (Note: for Ubuntu 24.04 and maybe other versions, you will need to use venv as ubuntu prevents you from installing pip requirements outside of venv to prevent breaking packages)
 
 `pip install -r requirements.txt`
 
@@ -96,7 +96,7 @@ Now that configuration is finished and requirements have been installed we can f
 
 `python EmbyAniSync.py`
 
-or 
+or
 
 `./venv/Scripts/python EmbyAniSync.py`
 
@@ -112,12 +112,13 @@ Basic usage of this feature, more detailed instructions to come.
 #### Configure Webhook
 
 In Emby dashboard, you can create a webhook that points to your flask app:port/update_show, and sends on "Playback Stop" and "Mark Played"
+Request Content type should be `application/json`
 
 ![image](https://user-images.githubusercontent.com/8314499/236054014-eec29591-7b93-4102-ad7c-956b58ee9660.png)
 
 ### Step 7 - Run as a service Systemd
 
-Enter the following command into your terminal to create a new service file. 
+Enter the following command into your terminal to create a new service file.
 replacing nano with your preferred text editor
 
 ```bash
@@ -126,6 +127,8 @@ sudo nano /etc/systemd/system/embyanisync.service
 
 Paste the contents of the following into the new file
 replacing the `/opt/EmbyAniSync/` and `#USER#` with the correct ones for your install
+
+#### For non venv
 
 ```bash
 [Unit]
@@ -139,6 +142,24 @@ ExecStart=/bin/bash -c 'cd /opt/EmbyAniSync/ && python3 EmbyAniSync.py'
 [Install]
 WantedBy=multi-user.target
 ```
+
+#### For venv
+
+```bash
+[Unit]
+Description=EmbyAniSync
+After=multi-user.target
+[Service]
+Type=idle
+Restart=on-failure
+User=#USER#
+WorkingDirectory=/opt/EmbyAniSync
+ExecStart=/bin/bash -c 'source /opt/EmbyAniSync/venv/bin/activate && python3 EmbyAniSync.py'
+Environment="PATH=/opt/EmbyAniSync/venv/bin:/usr/bin:/bin"
+[Install]
+WantedBy=multi-user.target
+```
+
 
 Then run the following commands to start the service and enable it at boot
 
@@ -162,7 +183,7 @@ sudo systemctl status embyanisync
 sudo systemctl enable embyanisync
 ```
 
-## Optional features 
+## Optional features
 
 All of this is copied over from the Parent Project so not 100% sure if accurate here.
 
